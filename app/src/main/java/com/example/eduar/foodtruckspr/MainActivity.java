@@ -5,11 +5,11 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     private FavoritesFragment favoritesFragment;
+    //private SearchTruckFragment searchTruckFragment;
     private SearchFragment searchFragment;
     private MyTruckFragment myTruckFragment;
 
@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         favoritesFragment = FavoritesFragment.newInstance();
+        //searchTruckFragment = SearchTruckFragment.newInstance();
         searchFragment = SearchFragment.newInstance();
         myTruckFragment = MyTruckFragment.newInstance();
 

@@ -13,7 +13,7 @@
 
     <item
         android:id="@+id/navigation_my_truck"
-        android:icon="@drawable/ic_my_truck2"
+        android:icon="@drawable/ic_my_truck3"
         android:title="@string/title_my_truck" />
 
 </menu>

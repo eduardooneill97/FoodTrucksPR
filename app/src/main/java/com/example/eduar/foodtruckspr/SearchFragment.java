@@ -2,44 +2,37 @@ package com.example.eduar.foodtruckspr;
 
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.SearchView;
-import android.view.Gravity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
 
 
-public class SearchFragment extends Fragment implements OnMapReadyCallback {
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class SearchFragment extends Fragment {
 
-    private GoogleMap map;
-    private MapView mapView;
-    private SearchView searchView;
+    private ViewPager pager;
+    private TabLayout tabLayout;
+    private SearchTruckFragment searchTruckFragment;
 
     public SearchFragment() {
         // Required empty public constructor
     }
 
-    public static SearchFragment newInstance() {
+    public static SearchFragment newInstance(){
+        return new SearchFragment();
+    }
 
-        Bundle args = new Bundle();
-
-        SearchFragment fragment = new SearchFragment();
-        fragment.setArguments(args);
-        return fragment;
+    @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        searchTruckFragment = SearchTruckFragment.newInstance();
     }
 
     @Override
@@ -48,51 +41,33 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_search, container, false);
 
-        //setHasOptionsMenu(true);
+        pager = v.findViewById(R.id.fragment_view_pager);
+        tabLayout = v.findViewById(R.id.fragment_tab_layout);
+        FragmentPagerAdapter adapter = new FragmentPagerAdapter(getChildFragmentManager()){
+            @Override
+            public Fragment getItem(int i) {
+                switch (i){
+                    case 0:
+                        return searchTruckFragment;
+                    case 1:
+                        return MyTruckFragment.newInstance();
+                }
+                return null;
+            }
 
-        FrameLayout fl = v.findViewById(R.id.searchLayout);
-        fl.setBackgroundColor(getResources().getColor(R.color.colorPrimaryOrange));
+            @Override
+            public int getCount() {
+                return 2;
+            }
+        };
 
-        searchView = v.findViewById(R.id.search_view);
-        searchView.setIconifiedByDefault(false);
+        pager.setAdapter(adapter);
+
+        pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(pager));
+
 
         return v;
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState){
-        super.onViewCreated(view, savedInstanceState);
-
-        mapView = (MapView) view.findViewById(R.id.mapContainer);
-        if(mapView != null){
-            mapView.onCreate(null);
-            mapView.onResume();
-            mapView.getMapAsync(this);
-        }
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
-        super.onCreateOptionsMenu(menu, inflater);
-
-        inflater.inflate(R.menu.search_fragment_menu, menu);
-
-//        searchView = (SearchView) menu.findItem(R.id.search_view).getActionView();
-//        searchView.setIconified(false);
-//        searchView.setIconifiedByDefault(false);
-    }
-
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        MapsInitializer.initialize(getContext());
-
-        this.map = googleMap;
-        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        LatLng marker = new LatLng(18.2116, -67.1424);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 17));
-        map.setMinZoomPreference(1.0f);
-        map.setMaxZoomPreference(21.0f);
-
-    }
 }

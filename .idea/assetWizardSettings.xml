@@ -33,7 +33,9 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="outputName" value="ic_my_truck2" />
+                                      <entry key="assetType" value="IMAGE" />
+                                      <entry key="imageAsset" value="C:\Users\eduar\Downloads\truck96.png" />
+                                      <entry key="outputName" value="ic_my_truck3" />
                                     </map>
                                   </option>
                                 </PersistentState>
