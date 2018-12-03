@@ -12,7 +12,7 @@ public class FoodTruck {
 
     private UUID id;
     private String name;
-    private String openHours;
+    private ArrayList<OpenHour> openHours;
     private ArrayList<FoodItem> menu;
     private LatLng location;
     private String image;
@@ -24,7 +24,7 @@ public class FoodTruck {
         this.id = UUID.randomUUID();
         this.location = location;
         this.owner = owner;
-        this.openHours = null;
+        this.openHours = new ArrayList<OpenHour>();
         this.phone = null;
         this.image = null;
         this.menu = new ArrayList<FoodItem>();
@@ -38,14 +38,6 @@ public class FoodTruck {
         this.name = name;
     }
 
-    public String getOpenHours() {
-        return openHours;
-    }
-
-    public void setOpenHours(String openHours) {
-        this.openHours = openHours;
-    }
-
     public void addMenuItem(FoodItem item){
         menu.add(item);
     }
@@ -53,6 +45,8 @@ public class FoodTruck {
     public void removeMenuItem(FoodItem item){
         menu.remove(item);
     }
+
+    public ArrayList<OpenHour> getOpenHours(){return openHours;}
 
     public ArrayList<FoodItem> getMenu() {
         return menu;

@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/scrollView1"
     tools:context=".MyTruckFragment">
+
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- TODO: Update blank fragment layout -->
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="150dp"
@@ -19,7 +20,6 @@
             android:background="@android:color/darker_gray"
             android:contentDescription="@string/truck_image_content_description"
             android:id="@+id/my_truck_image"/>
-
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/name"
@@ -90,14 +90,16 @@
             app:layout_constraintRight_toLeftOf="@id/guideline2"
             app:layout_constraintTop_toBottomOf="@id/view1" />
 
-        <Button
+        <ImageButton
             android:id="@+id/add_hour_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/add"
-            android:textColor="@android:color/white"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/view3"/>
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/add_button"
+            android:src="@drawable/ic_add"
+            app:layout_constraintBottom_toTopOf="@id/view3"
+            app:layout_constraintRight_toRightOf="parent" />
 
         <View
             android:id="@+id/view3"
@@ -126,14 +128,17 @@
             app:layout_constraintRight_toLeftOf="@id/guideline2"
             app:layout_constraintTop_toBottomOf="@id/hours_recycler_view" />
 
-        <Button
+        <ImageButton
             android:id="@+id/add_menu_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/add"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/add_button"
+            android:src="@drawable/ic_add"
             android:textColor="@android:color/white"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/view5"/>
+            app:layout_constraintBottom_toTopOf="@id/view5"
+            app:layout_constraintRight_toRightOf="parent" />
 
         <View
             android:id="@+id/view5"
@@ -144,6 +149,7 @@
             app:layout_constraintTop_toBottomOf="@id/view4" />
 
         <android.support.v7.widget.RecyclerView
+            android:id="@+id/menu_items_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/view5">
