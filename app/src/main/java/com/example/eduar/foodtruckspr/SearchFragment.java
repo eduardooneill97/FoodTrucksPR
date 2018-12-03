@@ -20,6 +20,7 @@ public class SearchFragment extends Fragment {
     private ViewPager pager;
     private TabLayout tabLayout;
     private SearchTruckFragment searchTruckFragment;
+    private SearchFoodFragment searchFoodFragment;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -33,6 +34,7 @@ public class SearchFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         searchTruckFragment = SearchTruckFragment.newInstance();
+        searchFoodFragment = SearchFoodFragment.newInstance();
     }
 
     @Override
@@ -50,7 +52,7 @@ public class SearchFragment extends Fragment {
                     case 0:
                         return searchTruckFragment;
                     case 1:
-                        return MyTruckFragment.newInstance();
+                        return searchFoodFragment;
                 }
                 return null;
             }

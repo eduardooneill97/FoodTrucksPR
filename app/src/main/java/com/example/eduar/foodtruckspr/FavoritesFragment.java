@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -52,12 +53,21 @@ public class FavoritesFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v =  inflater.inflate(R.layout.fragment_favorites, container, false);
 
+        setHasOptionsMenu(true);
         recyclerView = v.findViewById(R.id.favorites_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
 
         return v;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.empty_menu, menu);
+
     }
 
     public class FoodTrucksRVAdapter extends RecyclerView.Adapter<FTViewHolder>{
@@ -81,22 +91,30 @@ public class FavoritesFragment extends Fragment {
         }
     }
 
-    public class FTViewHolder extends RecyclerView.ViewHolder{
+    public class FTViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private ImageView image;
         private TextView name;
+        private FoodTruck foodTruck;
 
         public FTViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.truck_name);
             image = itemView.findViewById(R.id.truck_image);
+            itemView.setOnClickListener(this);
         }
 
         public void bind(int i){
-            FoodTruck truck = User.get().getFavorites().get(i);
-            name.setText(truck.getName());
-            if(truck.getImage() != null)
-                image.setImageBitmap(getScaledBitmap(truck.getImage()));
+            foodTruck = User.get().getFavorites().get(i);
+            name.setText(foodTruck.getName());
+            if(foodTruck.getImage() != null)
+                image.setImageBitmap(getScaledBitmap(foodTruck.getImage()));
+        }
+
+        @Override
+        public void onClick(final View v){
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, TruckDetailFragment.newInstance(foodTruck, false)).commit();
         }
 
         private Bitmap getScaledBitmap(String path){

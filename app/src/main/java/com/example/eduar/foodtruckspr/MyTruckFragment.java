@@ -117,6 +117,7 @@ public class MyTruckFragment extends Fragment {
         switch (item.getItemId()){
             case R.id.update:
                 Toast.makeText(getContext(), "Information Uploaded", Toast.LENGTH_SHORT).show();
+                FoodTruckDatabase.get().addFoodTruck(User.get().getMyTruck());
                 return true;
         }
         return false;

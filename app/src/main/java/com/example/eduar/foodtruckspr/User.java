@@ -26,18 +26,29 @@ public class User {
         initializeOpenHours(op,1,3,4,2,6,2,0,1);
         myTruck.getOpenHours().add(op);
         favorites = new ArrayList<FoodTruck>();
-        favorites.add(new FoodTruck("BitchTacos", new LatLng(18.12345, -67.23456), this));
-        favorites.add(new FoodTruck("BitchTacos", new LatLng(18.12345, -67.23456), this));
-        favorites.add(new FoodTruck("BitchTacos", new LatLng(18.12345, -67.23456), this));
-        favorites.add(new FoodTruck("BitchTacos", new LatLng(18.12345, -67.23456), this));
-        favorites.add(new FoodTruck("BitchTacos", new LatLng(18.12345, -67.23456), this));
-        favorites.add(new FoodTruck("BitchTacos", new LatLng(18.12345, -67.23456), this));
-        favorites.add(new FoodTruck("BitchTacos", new LatLng(18.12345, -67.23456), this));
-        favorites.add(new FoodTruck("BitchTacos", new LatLng(18.12345, -67.23456), this));
-        favorites.add(new FoodTruck("BitchTacos", new LatLng(18.12345, -67.23456), this));
-        favorites.add(new FoodTruck("BitchTacos", new LatLng(18.12345, -67.23456), this));
-        favorites.add(new FoodTruck("BitchTacos", new LatLng(18.12345, -67.23456), this));
-        favorites.add(new FoodTruck("BitchTacos", new LatLng(18.12345, -67.23456), this));
+        favorites.add(new FoodTruck("TikiTacos", new LatLng(18.12345, -67.23456), this));
+        favorites.add(new FoodTruck("Calmaos", new LatLng(18.12345, -67.23456), this));
+        favorites.add(new FoodTruck("La Esquina", new LatLng(18.12345, -67.23456), this));
+        favorites.add(new FoodTruck("Parada 51", new LatLng(18.12345, -67.23456), this));
+        favorites.add(new FoodTruck("Test", new LatLng(18.12345, -67.23456), this));
+        favorites.add(new FoodTruck("Tests", new LatLng(18.12345, -67.23456), this));
+        favorites.add(new FoodTruck("Test", new LatLng(18.12345, -67.23456), this));
+        favorites.add(new FoodTruck("Test", new LatLng(18.12345, -67.23456), this));
+        favorites.add(new FoodTruck("Test", new LatLng(18.12345, -67.23456), this));
+        favorites.add(new FoodTruck("Test", new LatLng(18.12345, -67.23456), this));
+        favorites.add(new FoodTruck("Test", new LatLng(18.12345, -67.23456), this));
+        favorites.add(new FoodTruck("Test", new LatLng(18.12345, -67.23456), this));
+
+        favorites.get(0).setPhone("9392475830");
+        favorites.get(0).getOpenHours().add(op);
+        FoodItem a = new FoodItem(); a.setName("Alcapurria"); a.setPrice("2.99");
+        FoodItem b = new FoodItem(); b.setName("Empanadas"); b.setPrice("3.25");
+        FoodItem c = new FoodItem(); c.setName("Sandwiches"); c.setPrice("2.99");
+        FoodItem d = new FoodItem(); d.setName("Hamburguesas"); d.setPrice("5.00");
+        favorites.get(0).getMenu().add(a);
+        favorites.get(0).getMenu().add(b);
+        favorites.get(0).getMenu().add(c);
+        favorites.get(0).getMenu().add(d);
     }
 
     public ArrayList<FoodTruck> getFavorites() {

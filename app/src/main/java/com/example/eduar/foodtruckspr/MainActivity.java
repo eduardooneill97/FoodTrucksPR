@@ -1,5 +1,6 @@
 package com.example.eduar.foodtruckspr;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -38,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent login = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(login);
+        
         favoritesFragment = FavoritesFragment.newInstance();
         //searchTruckFragment = SearchTruckFragment.newInstance();
         searchFragment = SearchFragment.newInstance();

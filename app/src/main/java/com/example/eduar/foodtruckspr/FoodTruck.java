@@ -25,7 +25,7 @@ public class FoodTruck {
         this.location = location;
         this.owner = owner;
         this.openHours = new ArrayList<OpenHour>();
-        this.phone = null;
+        this.phone = "None";
         this.image = null;
         this.menu = new ArrayList<FoodItem>();
     }

@@ -1,6 +1,8 @@
 package com.example.eduar.foodtruckspr;
 
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -20,6 +22,24 @@ public class FoodTruckDatabase {
         }
 
         return ftd;
+    }
+
+    public FoodTruckDatabase(){
+        this.foodTrucks = new ArrayList<FoodTruck>();
+        this.foods = new ArrayList<>();
+        this.foodAvailability = new HashMap<>();
+
+        FoodTruck ft = new FoodTruck("TikiTacos", new LatLng(18.5555,-67.4433), new User());
+        FoodItem a = new FoodItem(); a.setName("Alcapurria");
+        FoodItem b = new FoodItem(); b.setName("Empanadas");
+        FoodItem c = new FoodItem(); c.setName("Sandwiches");
+        FoodItem d = new FoodItem(); d.setName("Hamburguesas");
+        ft.getMenu().add(a);
+        ft.getMenu().add(b);
+        ft.getMenu().add(c);
+        ft.getMenu().add(d);
+
+        this.addFoodTruck(ft);
     }
 
     public void addFoodTruck(FoodTruck ft){

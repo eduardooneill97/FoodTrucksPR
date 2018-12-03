@@ -15,7 +15,8 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:scaleType="centerInside"
+            android:scaleType="fitXY"
+            android:src="@drawable/foodtruck"
             android:cropToPadding="true"
             android:background="@android:color/darker_gray"
             android:contentDescription="@string/truck_image_content_description"
@@ -85,15 +86,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="@string/open_hours"
-            android:textSize="24sp"
+            android:textSize="18sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/guideline2"
             app:layout_constraintTop_toBottomOf="@id/view1" />
 
         <ImageButton
             android:id="@+id/add_hour_button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="4dp"
             android:background="@drawable/add_button"
@@ -123,15 +124,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="@string/menu"
-            android:textSize="24sp"
+            android:textSize="18sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/guideline2"
             app:layout_constraintTop_toBottomOf="@id/hours_recycler_view" />
 
         <ImageButton
             android:id="@+id/add_menu_button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="4dp"
             android:background="@drawable/add_button"

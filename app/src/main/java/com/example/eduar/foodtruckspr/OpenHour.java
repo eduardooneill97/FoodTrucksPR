@@ -101,6 +101,11 @@ public class OpenHour {
     }
 
     @Override
+    public String toString(){
+        return fromDay+"-"+toDay+"\n"+"Opens: "+fromHour+":"+fromMinute+" "+fromAPM+"\n"+"Closes: "+toHour+":"+toMinute+" "+toAPM;
+    }
+
+    @Override
     public boolean equals(Object op){
         try{
             OpenHour that = (OpenHour) op;
