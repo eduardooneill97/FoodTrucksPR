@@ -8,4 +8,16 @@
 
     </item>
 
+    <item android:id="@+id/add_image"
+        android:title="@string/add_image"
+        app:showAsAction="never">
+
+    </item>
+
+    <item android:id="@+id/delete"
+        android:title="@string/remove_truck"
+        app:showAsAction="never">
+
+    </item>
+
 </menu>

@@ -11,6 +11,8 @@ public class User {
     private static User user;
     private ArrayList<FoodTruck> favorites;
     private FoodTruck myTruck;
+    public boolean created;
+    public boolean signedIn;
 
     public static User get(){
         if(user == null){
@@ -21,6 +23,8 @@ public class User {
 
     public User(){
         this.id = UUID.randomUUID();
+        this.created = false;
+        this.signedIn = false;
         myTruck = new FoodTruck("BitchTacos", new LatLng(18.4444, -67.5555), this);
         OpenHour op = new OpenHour();
         initializeOpenHours(op,1,3,4,2,6,2,0,1);

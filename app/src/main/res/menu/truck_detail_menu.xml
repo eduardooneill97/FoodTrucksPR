@@ -8,4 +8,16 @@
 
     </item>
 
+    <item android:id="@+id/remove_favorites"
+        android:title="Remove from Favorites"
+        app:showAsAction="never">
+
+    </item>
+
+    <item android:id="@+id/get_directions"
+        android:title="@string/get_directions"
+        app:showAsAction="never">
+
+    </item>
+
 </menu>

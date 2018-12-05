@@ -1,10 +1,12 @@
 package com.example.eduar.foodtruckspr;
 
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -116,8 +118,40 @@ public class MyTruckFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
             case R.id.update:
-                Toast.makeText(getContext(), "Information Uploaded", Toast.LENGTH_SHORT).show();
-                FoodTruckDatabase.get().addFoodTruck(User.get().getMyTruck());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage("Are you sure? You're Food Truck will be visible to the world.");
+                builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getContext(), "Information Uploaded", Toast.LENGTH_SHORT).show();
+                        FoodTruckDatabase.get().addFoodTruck(User.get().getMyTruck());
+                    }
+                });
+                builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.create().show();
+                return true;
+            case R.id.delete:
+                AlertDialog.Builder builde = new AlertDialog.Builder(getActivity());
+                builde.setMessage("Are you sure? You're Food Truck will no longer appear to anyone.");
+                builde.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getContext(), "Deleted My Truck", Toast.LENGTH_SHORT).show();
+                        FoodTruckDatabase.get().removeFoodTruck(User.get().getMyTruck());
+                    }
+                });
+                builde.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builde.create().show();
                 return true;
         }
         return false;
@@ -192,9 +226,23 @@ public class MyTruckFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            User.get().getMyTruck().getOpenHours().remove(openHour);
-            adapter.notifyDataSetChanged();
-            Toast.makeText(getContext(), "Item Deleted", Toast.LENGTH_SHORT).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage("Are you sure you want to delete this item?");
+            builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    User.get().getMyTruck().getOpenHours().remove(openHour);
+                    adapter.notifyDataSetChanged();
+                    Toast.makeText(getContext(), "Item Deleted", Toast.LENGTH_SHORT).show();
+                }
+            });
+            builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            builder.create().show();
         }
     }
 
@@ -274,9 +322,23 @@ public class MyTruckFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            User.get().getMyTruck().getMenu().remove(foodItem);
-            adapter2.notifyDataSetChanged();
-            Toast.makeText(getContext(), "Item Deleted", Toast.LENGTH_SHORT).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage("Are you sure you want to delete this item?");
+            builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    User.get().getMyTruck().getMenu().remove(foodItem);
+                    adapter2.notifyDataSetChanged();
+                    Toast.makeText(getContext(), "Item Deleted", Toast.LENGTH_SHORT).show();
+                }
+            });
+            builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            builder.create().show();
         }
     }
 

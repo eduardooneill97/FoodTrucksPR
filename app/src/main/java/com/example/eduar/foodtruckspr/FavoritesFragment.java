@@ -114,7 +114,7 @@ public class FavoritesFragment extends Fragment {
         @Override
         public void onClick(final View v){
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, TruckDetailFragment.newInstance(foodTruck, false)).commit();
+                    .replace(R.id.fragment_container, TruckDetailFragment.newInstance(foodTruck, false)).addToBackStack("detail").commit();
         }
 
         private Bitmap getScaledBitmap(String path){

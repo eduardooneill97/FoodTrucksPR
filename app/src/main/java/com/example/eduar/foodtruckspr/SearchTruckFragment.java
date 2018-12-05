@@ -12,6 +12,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,12 +24,17 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+
 
 public class SearchTruckFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap map;
     private MapView mapView;
     private SearchView searchView;
+    private SearchView.SearchAutoComplete searchAutoComplete;
+    private ArrayAdapter<String> arrayAdapter;
+    private ArrayList<FoodTruck> trucks;
 
     public SearchTruckFragment() {
         // Required empty public constructor
@@ -73,6 +80,21 @@ public class SearchTruckFragment extends Fragment implements OnMapReadyCallback 
         searchView = (SearchView) menu.findItem(R.id.search_view_item).getActionView();
         searchView.setQueryHint(getResources().getString(R.string.title_search));
 
+        searchAutoComplete = (SearchView.SearchAutoComplete)searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        searchAutoComplete.setDropDownBackgroundResource(android.R.color.background_light);
+        searchAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int itemIndex, long id) {
+                String queryString=(String)adapterView.getItemAtPosition(itemIndex);
+                searchAutoComplete.setText("" + queryString);
+
+                for(FoodTruck ft: FoodTruckDatabase.get().getFoodTrucks()){
+                    if(ft.getName().equalsIgnoreCase(queryString)){
+                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(ft.getLocation(), 17));
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -82,8 +104,11 @@ public class SearchTruckFragment extends Fragment implements OnMapReadyCallback 
         MenuItem item = menu.findItem(R.id.search_view_item);
         Drawable icon = item.getIcon();
         icon.setColorFilter(getResources().getColor(R.color.colorSearchBar), PorterDuff.Mode.SRC_IN);
-
         item.setIcon(icon);
+
+        arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1,
+                FoodTruckDatabase.get().getTruckNames());
+        searchAutoComplete.setAdapter(arrayAdapter);
     }
 
 
@@ -97,20 +122,31 @@ public class SearchTruckFragment extends Fragment implements OnMapReadyCallback 
         map.setMaxZoomPreference(21.0f);
         map.addMarker(new MarkerOptions()
             .position(marker)
-            .title("TikiTacos")
-            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+            .title("TikiTacos"));
+        map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                FoodTruck ft = searchFoodTruck(marker);
+                if(ft!=null){
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, TruckDetailFragment.newInstance(ft, false)).addToBackStack("detail").commit();
+                }
+            }
+        });
+
+        for(FoodTruck ft: FoodTruckDatabase.get().getFoodTrucks()){
+            map.addMarker(new MarkerOptions()
+                    .position(ft.getLocation())
+                    .title(ft.getName()));
+        }
     }
 
-    private class InfWindowAdapter implements GoogleMap.InfoWindowAdapter {
-
-        @Override
-        public View getInfoWindow(Marker marker) {
-            return null;
+    private FoodTruck searchFoodTruck(Marker m){
+        for(FoodTruck f: FoodTruckDatabase.get().getFoodTrucks()){
+            if(f.getName().equals(m.getTitle()))
+                return f;
         }
-
-        @Override
-        public View getInfoContents(Marker marker) {
-            return null;
-        }
+        return null;
     }
+
 }
