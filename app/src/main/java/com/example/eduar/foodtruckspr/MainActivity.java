@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -26,25 +27,29 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_favorites:
-                    Fragment f = getSupportFragmentManager().findFragmentByTag("detail");
-                    if(f!=null){
-                        getSupportFragmentManager().beginTransaction().remove(f).commit();
-                    }
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, favoritesFragment).commit();
+//                    Fragment f = getSupportFragmentManager().findFragmentByTag("detail");
+//                    if(f!=null){
+//                        getSupportFragmentManager().beginTransaction().remove(f).commit();
+//                    }
+                    getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, favoritesFragment, "favorites").commit();
                     return true;
                 case R.id.navigation_search:
-                    Fragment g = getSupportFragmentManager().findFragmentByTag("detail");
-                    if(g!=null){
-                        getSupportFragmentManager().beginTransaction().remove(g).commit();
-                    }
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, searchFragment).commit();
+//                    Fragment g = getSupportFragmentManager().findFragmentByTag("detail");
+//                    if(g!=null){
+//                        getSupportFragmentManager().beginTransaction().remove(g).commit();
+//                    }
+                    getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, searchFragment, "search").commit();
                     return true;
                 case R.id.navigation_my_truck:
                     b = true;
-                    Fragment h = getSupportFragmentManager().findFragmentByTag("detail");
-                    if(h!=null){
-                        getSupportFragmentManager().beginTransaction().remove(h).commit();
-                    }
+//                    Fragment h = getSupportFragmentManager().findFragmentByTag("detail");
+//                    if(h!=null){
+//                        getSupportFragmentManager().beginTransaction().remove(h).commit();
+//                    }
                     if(User.get().created == false) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                         builder.setMessage("This section is where you can publish your own food business. Do you wish to continue?");
@@ -52,7 +57,9 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 User.get().created = true;
-                                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myTruckFragment).commit();
+                                getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                                getSupportFragmentManager().beginTransaction()
+                                        .replace(R.id.fragment_container, myTruckFragment, "mytruck").commit();
 
                             }
                         });
@@ -64,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
                         });
                         builder.create().show();
                     } else{
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myTruckFragment).commit();
+                        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myTruckFragment, "mytruck").commit();
 
                     }
                     return b;

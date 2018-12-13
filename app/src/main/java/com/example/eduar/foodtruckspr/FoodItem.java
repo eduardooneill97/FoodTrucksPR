@@ -36,7 +36,7 @@ public class FoodItem {
     public boolean equals(Object fi){
         try{
             FoodItem that = (FoodItem) fi;
-            if(this.name.equals(that.name)) return true;
+            if(this.id.equals(that.id)) return true;
             else return false;
         } catch (Exception e){
             return false;

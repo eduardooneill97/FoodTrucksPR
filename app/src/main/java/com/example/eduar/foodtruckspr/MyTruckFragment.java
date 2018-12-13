@@ -19,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
@@ -39,6 +40,9 @@ public class MyTruckFragment extends Fragment {
     private MenuItemsRVAdapter adapter2;
     private ImageButton addHourButton;
     private ImageButton addMenuItemButton;
+    private AppCompatSpinner category;
+    private TextInputLayout name;
+    private TextInputLayout phone;
 
     public MyTruckFragment() {
         // Required empty public constructor
@@ -69,6 +73,56 @@ public class MyTruckFragment extends Fragment {
         setHasOptionsMenu(true);
 
         scrollView = v.findViewById(R.id.scrollView1);
+        category = v.findViewById(R.id.spinner);
+        User.get().getMyTruck().setCategory(category.getItemAtPosition(0).toString());
+        category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                User.get().getMyTruck().setCategory(category.getItemAtPosition(position).toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        name = v.findViewById(R.id.name);
+        name.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                name.setError(null);
+                User.get().getMyTruck().setName(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        phone = v.findViewById(R.id.phone);
+        phone.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                phone.setError(null);
+                User.get().getMyTruck().setPhone(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         recyclerView = v.findViewById(R.id.hours_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -123,8 +177,10 @@ public class MyTruckFragment extends Fragment {
                 builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getContext(), "Information Uploaded", Toast.LENGTH_SHORT).show();
-                        FoodTruckDatabase.get().addFoodTruck(User.get().getMyTruck());
+                        if(checkValidInput()){
+                            Toast.makeText(getContext(), "Information Uploaded", Toast.LENGTH_SHORT).show();
+                            FoodTruckDatabase.get().addFoodTruck(User.get().getMyTruck());
+                        }
                     }
                 });
                 builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -342,4 +398,22 @@ public class MyTruckFragment extends Fragment {
         }
     }
 
+    private boolean checkValidInput(){
+        boolean b = true;
+        if(User.get().getMyTruck().getName().equals("")){
+            name.setError("Name is required.");
+            b = false;
+        }
+        if(User.get().getMyTruck().getPhone().equals("None")){
+            phone.setError("Phone is required.");
+            b = false;
+        }
+        else if(!User.get().getMyTruck().getPhone().matches("[(][0-9]{3}[)][-]?[0-9]{3}[-]?[0-9]{4}") &&
+                !User.get().getMyTruck().getPhone().matches("[0-9]{3}[-]?[0-9]{3}[-]?[0-9]{4}") &&
+                !(User.get().getMyTruck().getPhone().matches("[0-9]+") && User.get().getMyTruck().getPhone().length() == 10)){
+            phone.setError("Invalid phone number.");
+            b = false;
+        }
+        return b;
+    }
 }

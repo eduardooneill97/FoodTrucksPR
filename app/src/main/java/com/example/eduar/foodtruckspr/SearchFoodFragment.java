@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -61,7 +62,7 @@ public class SearchFoodFragment extends Fragment {
         rv = v.findViewById(R.id.food_recycler_view);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         rv.setAdapter(adapter);
-        placeholder = v.findViewById(R.id.search_placeholder);
+//        placeholder = v.findViewById(R.id.search_placeholder);
         return v;
     }
 
@@ -69,44 +70,44 @@ public class SearchFoodFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
         super.onCreateOptionsMenu(menu, inflater);
 
-        inflater.inflate(R.menu.search_fragment_menu, menu);
-
-        searchView = (SearchView) menu.findItem(R.id.search_view_item).getActionView();
-        searchView.setQueryHint(getResources().getString(R.string.title_search));
-
-        searchAutoComplete = (SearchView.SearchAutoComplete)searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-        searchAutoComplete.setDropDownBackgroundResource(android.R.color.background_light);
-        searchAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int itemIndex, long id) {
-                String queryString=(String)adapterView.getItemAtPosition(itemIndex);
-                searchAutoComplete.setText("" + queryString);
-                searchTrucks = new ArrayList<>();
-                for(FoodItem i: FoodTruckDatabase.get().getFoodAvailability().keySet()){
-                    if(queryString.equalsIgnoreCase(i.toString())){
-                        for(int j = 0;j<FoodTruckDatabase.get().getFoodAvailability().get(i).size(); j++)
-                        searchTrucks.add(FoodTruckDatabase.get().getFoodAvailability().get(i).get(j));
-                    }
-                }
-                placeholder.setVisibility(View.GONE);
-                adapter.notifyDataSetChanged();
-            }
-        });
-
+//        inflater.inflate(R.menu.search_fragment_menu, menu);
+//
+//        searchView = (SearchView) menu.findItem(R.id.search_view_item).getActionView();
+//        searchView.setQueryHint(getResources().getString(R.string.title_search));
+//
+//        searchAutoComplete = (SearchView.SearchAutoComplete)searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+//        searchAutoComplete.setDropDownBackgroundResource(android.R.color.background_light);
+//        searchAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int itemIndex, long id) {
+//                String queryString=(String)adapterView.getItemAtPosition(itemIndex);
+//                searchAutoComplete.setText("" + queryString);
+//                searchTrucks = new ArrayList<>();
+//                for(FoodItem i: FoodTruckDatabase.get().getFoodAvailability().keySet()){
+//                    if(queryString.equalsIgnoreCase(i.toString())){
+//                        for(int j = 0;j<FoodTruckDatabase.get().getFoodAvailability().get(i).size(); j++)
+//                        searchTrucks.add(FoodTruckDatabase.get().getFoodAvailability().get(i).get(j));
+//                    }
+//                }
+//                placeholder.setVisibility(View.GONE);
+//                adapter.notifyDataSetChanged();
+//            }
+//        });
+        inflater.inflate(R.menu.empty_menu, menu);
     }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu){
         super.onPrepareOptionsMenu(menu);
 
-        MenuItem item = menu.findItem(R.id.search_view_item);
-        Drawable icon = item.getIcon();
-        icon.setColorFilter(getResources().getColor(R.color.colorSearchBar), PorterDuff.Mode.SRC_IN);
-        item.setIcon(icon);
-
-        arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1,
-                FoodTruckDatabase.get().getFoodNames());
-        searchAutoComplete.setAdapter(arrayAdapter);
+//        MenuItem item = menu.findItem(R.id.search_view_item);
+//        Drawable icon = item.getIcon();
+//        icon.setColorFilter(getResources().getColor(R.color.colorSearchBar), PorterDuff.Mode.SRC_IN);
+//        item.setIcon(icon);
+//
+//        arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1,
+//                FoodTruckDatabase.get().getFoodNames());
+//        searchAutoComplete.setAdapter(arrayAdapter);
     }
 
     public class FoodRVAdapter extends RecyclerView.Adapter<FoodViewHolder>{
@@ -125,7 +126,8 @@ public class SearchFoodFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return searchTrucks.size();
+//            return searchTrucks.size();
+            return getResources().getStringArray(R.array.categories).length;
         }
     }
 
@@ -141,14 +143,15 @@ public class SearchFoodFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_container, TruckDetailFragment.newInstance(ft, false)).commit();
+                            .replace(R.id.fragment_container, TruckListFragment.newInstance(name.getText().toString()))
+                            .addToBackStack("categories").commit();
                 }
             });
         }
 
         public void bind(int i){
-            name.setText(searchTrucks.get(i).toString());
-            ft = searchTrucks.get(i);
+            name.setText(getResources().getStringArray(R.array.categories)[i]);
+            //ft = searchTrucks.get(i);
         }
     }
 

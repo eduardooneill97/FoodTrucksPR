@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -93,6 +94,20 @@ public class SearchTruckFragment extends Fragment implements OnMapReadyCallback 
                         map.moveCamera(CameraUpdateFactory.newLatLngZoom(ft.getLocation(), 17));
                     }
                 }
+            }
+        });
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                if(FoodTruckDatabase.get().getTruckByName(s) == null){
+                    Toast.makeText(getContext(), R.string.not_found, Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
             }
         });
     }

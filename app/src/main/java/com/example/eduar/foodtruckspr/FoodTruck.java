@@ -17,6 +17,7 @@ public class FoodTruck {
     private LatLng location;
     private String image;
     private String phone;
+    private String category;
     public User owner;
 
     public FoodTruck(String name, LatLng location, User owner){
@@ -27,6 +28,7 @@ public class FoodTruck {
         this.openHours = new ArrayList<OpenHour>();
         this.phone = "None";
         this.image = null;
+        this.category = null;
         this.menu = new ArrayList<FoodItem>();
     }
 
@@ -78,6 +80,14 @@ public class FoodTruck {
 
     public User getOwner() {
         return owner;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     @Override
